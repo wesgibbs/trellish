@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require 'trellish'
+require 'trellish/card'
+require 'yaml'
+
+if ARGV[0].nil?
+  Trellish.logger.error "Please provide a Trello card id or URL."
+  exit
+end
+
+config_file = if File.exists?('trellish.yml')
+              YAML.load(File.read('trellish.yml'))
+            elsif File.exists?(File.expand_path('~/trellish.yml'))
+              YAML.load(File.read(File.expand_path('~/trellish.yml')))
+            end
+
+unless config_file
+  Trellish.logger.error "Could not locate trellish.yml file in current directory or home directory."
+  exit
+end
+
+Trellish.configure(
+  trello_api_key: config_file['trello_api_key'],
+  trello_oauth_secret: config_file['trello_oauth_secret'],
+  trello_oauth_token: config_file['trello_oauth_token'])
+
+card = Trellish::Card.new(ARGV[0])
+card.finish
