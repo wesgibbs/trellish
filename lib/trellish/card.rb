@@ -27,7 +27,7 @@ module Trellish
     def finish
       add_branch_link
       add_merge_to_master_item
-      remove_me
+      remove_all
       move_to_qa
     end
 
@@ -40,10 +40,8 @@ module Trellish
       end
     end
 
-    def remove_me
-      if @card.members.include? @member
-        @card.remove_member(@member) rescue nil
-      end
+    def remove_all
+      @card.remove_all_members
     end
 
     private

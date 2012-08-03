@@ -15,5 +15,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Trellish::VERSION
 
-  gem.add_dependency 'ruby-trello-wgibbs'
+  gem.add_dependency 'ruby-trello-wgibbs', '>=0.4.4'
 end
