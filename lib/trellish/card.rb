@@ -10,23 +10,13 @@ module Trellish
       @card = Trello::Card.find(parse_card_id(card_id_or_url))
     end
 
-    def add_branch_link
-      @card.add_comment(github_branch_url)
-    end
-
-    def add_merge_to_master_item
-      checklist = @card.checklists.first
-      if checklist.nil?
-        new_checklist = Checklist.create(name: 'Checklist', board_id: @card.board_id)
-        @card.add_checklist(new_checklist)
-        checklist = @card.refresh!.checklists.first
-      end
-      checklist.add_item('Merge to master')
+    def add_pull_request_link
+      @card.description = "[Pull Request] (#{github_pull_request_url})\n\n#{@card.description}"
+      @card.save
     end
 
     def finish
-      add_branch_link
-      add_merge_to_master_item
+      add_pull_request_link
       remove_all
       move_to_qa
     end

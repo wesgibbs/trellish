@@ -23,7 +23,8 @@ end
 Trellish.configure(
   trello_api_key: config_file['trello_api_key'],
   trello_oauth_secret: config_file['trello_oauth_secret'],
-  trello_oauth_token: config_file['trello_oauth_token'])
+  trello_oauth_token: config_file['trello_oauth_token'],
+  github_oauth_token: config_file['github_oauth_token'])
 
 card = Trellish::Card.new(ARGV[0])
 card.finish
