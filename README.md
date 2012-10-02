@@ -27,8 +27,11 @@ Create a trellish.yml file in your current directory or home directory. Set it u
     trello_oauth_secret: numbers_and_letters_and_stuff
     # Visit http://trello.com/1/connect?key=TRELLO_API_KEY_FROM_ABOVE&name=Trellish&response_type=token&scope=read,write&expiration=never and copy the token to trello_oauth_token.
     trello_oauth_token: numbers_and_letters_and_stuff
+    # Run: `curl -u 'username' -d '{"scopes":["repo"],"note":"Trellish"}' https://api.github.com/authorizations`
+    # Copy the token parameter from the response to github_oauth_token.
+    github_oauth_token: numbers_and_letters_and_stuff
 
-git checkout the topic branch for the card you are finishing. Then do this:
+`git checkout` the topic branch for the card you are finishing. Then do this:
 
     trellish https://trello.com/c/a3Wbcde4
 
@@ -38,10 +41,9 @@ or alternately:
 
 This will:
 
-- add a link to the branch on github as a comment on the card
-- add a checklist named "Checklist" if one doesn't exist
-- add an item to that checklist called "Merge to master"
-- remove you from the card
+- create a pull request to merge your topic branch into master
+- add a link to the pull request to the beginning of the card description
+- remove everyone from the card
 - move the card to the QA list
 
 ## Contributing
