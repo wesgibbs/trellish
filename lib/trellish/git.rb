@@ -4,7 +4,7 @@ module Trellish
   module Git
 
     def current_git_branch
-      @current_git_branch ||= `cat .git/head`.split('/').last
+      @current_git_branch ||= `cat .git/head`.split('/').last.strip
     end
 
     def github_pull_request_url
@@ -17,12 +17,11 @@ module Trellish
         req.url "/repos/#{git_repository_owner}/#{git_repository_name}/pulls"
         req.headers['Content-Type'] = 'application/json'
         req.headers['Authorization'] = "token #{Trellish.config[:github_oauth_token]}"
-        req.body = %Q|{
-          "title": "#{pull_request_title}",
-          "base": "master",
-          "head": "#{git_repository_owner}:#{current_git_branch}"
-        }|.gsub(/\s/, '')
-        true
+        req.body = {
+          title: @card.name,
+          base: "master",
+          head: "#{git_repository_owner}:#{current_git_branch}"
+        }.to_json
       end
       @github_pull_request_url = JSON.parse(response.body)["html_url"]
     end
@@ -37,10 +36,6 @@ module Trellish
 
     def matches
       @matches ||= matches = remote_url.match(%r|^git@github.com:([^/]*)\/([^\.]*)\.git$|)
-    end
-
-    def pull_request_title
-      @pull_request_title ||= `git show -s --format=%s head`
     end
 
     def remote_url
