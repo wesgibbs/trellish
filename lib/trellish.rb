@@ -11,7 +11,8 @@ module Trellish
     trello_api_key: 'TRELLO_API_KEY',
     trello_oauth_secret: 'TRELLO_OAUTH_SECRET',
     trello_oauth_token: 'TRELLO_OAUTH_TOKEN',
-    github_oauth_token: 'GITHUB_OAUTH_TOKEN'
+    github_oauth_token: 'GITHUB_OAUTH_TOKEN',
+    qa_list_name: 'QA'
   }
 
   @valid_config_keys = @config.keys

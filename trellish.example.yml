@@ -14,3 +14,6 @@ trello_oauth_token: numbers_and_letters_and_stuff
 #   curl -u 'username' -d '{"scopes":["repo"],"note":"Trellish"}' https://api.github.com/authorizations
 # and copy the token parameter from the response here.
 github_oauth_token: numbers_and_letters_and_stuff
+
+# Name of your QA list in Trello
+qa_list_name = 'QA'

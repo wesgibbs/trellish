@@ -22,11 +22,11 @@ module Trellish
     end
 
     def move_to_qa
-      qa_list = @card.board.lists.find { |list| list.name == 'QA' }
+      qa_list = @card.board.lists.find { |list| list.name == Trellish.config[:qa_list_name] }
       if qa_list
         @card.move_to_list(qa_list)
       else
-        Trellish.logger.warn "Unable to move card to 'QA' list. No list named 'QA' found."
+        Trellish.logger.warn "Unable to move card to #{Trellish.config[:qa_list_name]} list. No list named #{Trellish.config[:qa_list_name]} found."
       end
     end
 
