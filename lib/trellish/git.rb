@@ -19,7 +19,7 @@ module Trellish
         req.headers['Authorization'] = "token #{Trellish.config[:github_oauth_token]}"
         req.body = {
           title: @card.name,
-          base: Trellish.config[:github_base_branch],
+          base: Trellish.config[:git_base_branch],
           head: "#{git_repository_owner}:#{current_git_branch}"
         }.to_json
       end

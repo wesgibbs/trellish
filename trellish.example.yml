@@ -16,7 +16,7 @@ trello_oauth_token: numbers_and_letters_and_stuff
 github_oauth_token: numbers_and_letters_and_stuff
 
 # The branch you want your changes merged into
-github_base_branch: master
+git_base_branch: master
 
 # Name of your QA list in Trello
 qa_list_name: QA
