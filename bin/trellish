@@ -25,8 +25,8 @@ Trellish.configure(
   trello_oauth_secret: config_file['trello_oauth_secret'],
   trello_oauth_token: config_file['trello_oauth_token'],
   github_oauth_token: config_file['github_oauth_token'],
-  git_base_branch: config_file['git_base_branch'],
-  qa_list_name: config_file['qa_list_name'])
+  git_base_branch: config_file['git_base_branch'] || 'master',
+  qa_list_name: config_file['qa_list_name'] || 'QA')
 
 card = Trellish::Card.new(ARGV[0])
 card.finish
