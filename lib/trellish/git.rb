@@ -28,6 +28,10 @@ module Trellish
         Trellish.logger.error "Failed to connect to Github. Please check your github_oauth_token parameter in trellish.yml, or regenerate it if you continue to have problems. Original error: #{e.message}"
         exit
       end
+      if response.status == 401
+        Trellish.logger.error "The response from the Github API says Bad Credentials. Please check your github_oauth_token parameter in trellish."
+        exit
+      end
       @github_pull_request_url = JSON.parse(response.body)["html_url"]
     end
 
