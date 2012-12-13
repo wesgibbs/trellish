@@ -21,9 +21,9 @@ Or install it yourself as:
 Create a trellish.yml file in your current directory or home directory. Set it up like this:
 
 1. Sign in to Trello and go to https://trello.com/1/appKey/generate.
-1. Copy "Key" from that page to tello\_api\_key.
-1. Copy "Secret (for OAuth signing)" from that page to tello\_oauth\_secret.
-1. Visit http://trello.com/1/connect?key=TRELLO\_API\_KEY\_FROM\_ABOVE&name=Trellish&response_type=token&scope=read,write&expiration=never
+1. Copy "Key" from that page to trello\_api\_key.
+1. Copy "Secret (for OAuth signing)" from that page to trello\_oauth\_secret.
+1. Visit https://trello.com/1/authorize?key=TRELLO\_API\_KEY\_FROM\_ABOVE&name=Trellish&expiration=never&response_type=token&scope=read,write
 1. Copy the token to trello\_oauth\_token.
 1. Run: `curl -u 'username' -d '{"scopes":["repo"],"note":"Trellish"}' https://api.github.com/authorizations`
 1. Copy the token parameter from the response to github\_oauth\_token.
