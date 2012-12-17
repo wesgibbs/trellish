@@ -43,6 +43,16 @@ This will:
 - remove everyone from the card
 - move the card to the QA list
 
+## Certificate issues
+
+If you're stuck with an error along the lines of
+
+    SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed
+
+try updating your root certificates. If you use RVM, this may work:
+
+    curl http://curl.haxx.se/ca/cacert.pem -o ~/.rvm/usr/ssl/cert.pem
+
 ## Contributing
 
 1. Fork it
