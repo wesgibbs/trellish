@@ -1,12 +1,12 @@
 # Sign in to Trello and go here https://trello.com/1/appKey/generate.
-# Copy "Key" from that page to tello_api_key.
+# Copy "Key" from that page to trello_api_key.
 trello_api_key: numbers_and_letters_and_stuff
 
-# Copy "Secret (for OAuth signing)" from that page to tello_oauth_secret.
+# Copy "Secret (for OAuth signing)" from that page to trello_oauth_secret.
 trello_oauth_secret: numbers_and_letters_and_stuff
 
 # Visit
-#   http://trello.com/1/connect?key=TRELLO_API_KEY_FROM_ABOVE&name=Trellish&response_type=token&scope=read,write&expiration=never
+#   http://trello.com/1/authorize?key=TRELLO_API_KEY_FROM_ABOVE&name=Trellish&response_type=token&scope=read,write&expiration=never
 # and copy the token to trello_oauth_token here.
 trello_oauth_token: numbers_and_letters_and_stuff
 
