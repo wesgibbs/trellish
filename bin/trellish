@@ -9,14 +9,12 @@ if ARGV[0].nil?
   exit
 end
 
-config_file = if File.exists?('trellish.yml')
-              YAML.load(File.read('trellish.yml'))
-            elsif File.exists?(File.expand_path('~/trellish.yml'))
-              YAML.load(File.read(File.expand_path('~/trellish.yml')))
-            end
+config_paths = %w(trellish.yml ~/trellish.yml ~/.trellish)
+config_filepath = config_paths.collect { |e| File.expand_path(e) }.find { |e| File.exists?(e) }
+config_file = YAML.load(File.read(config_filepath)) if config_filepath
 
 unless config_file
-  Trellish.logger.error "Could not locate trellish.yml file in current directory or home directory."
+  Trellish.logger.error "Could not locate your settings in ./trellish.yml, ~/trellish.yml, or ~/.trellish"
   exit
 end
 
