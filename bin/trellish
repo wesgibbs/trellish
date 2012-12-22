@@ -1,13 +1,11 @@
 #!/usr/bin/env ruby
 
+require 'readline'
 require 'trellish'
 require 'trellish/card'
 require 'yaml'
 
-if ARGV[0].nil?
-  Trellish.logger.error "Please provide a Trello card id or URL."
-  exit
-end
+# process config file
 
 config_paths = %w(trellish.yml ~/trellish.yml ~/.trellish)
 config_filepath = config_paths.collect { |e| File.expand_path(e) }.find { |e| File.exists?(e) }
@@ -18,13 +16,30 @@ unless config_file
   exit
 end
 
-Trellish.configure(
-  trello_api_key: config_file['trello_api_key'],
-  trello_oauth_secret: config_file['trello_oauth_secret'],
-  trello_oauth_token: config_file['trello_oauth_token'],
-  github_oauth_token: config_file['github_oauth_token'],
-  git_base_branch: config_file['git_base_branch'] || 'master',
-  qa_list_name: config_file['qa_list_name'] || 'QA')
+Trellish.configure(config_file)
 
-card = Trellish::Card.new(ARGV[0])
-card.finish
+# parse command-line arguments
+
+case ARGV[0]
+
+when 'start'
+  card =
+    if ARGV[1]
+      Trellish::Card.new(ARGV[1])
+    else
+      Trellish::Card.select_from_list(Trellish.config[:next_up_list_name], false)
+    end
+  puts "Starting card #{card.name}"
+  card.start
+
+when 'finish'
+  card =
+    if ARGV[1]
+      Trellish::Card.new(ARGV[1])
+    else
+      Trellish::Card.select_from_list(Trellish.config[:in_progress_list_name], true)
+    end
+  puts "Finishing card #{card.name}"
+  card.finish
+
+end

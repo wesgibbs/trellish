@@ -20,7 +20,8 @@ module Trellish
           req.headers['Authorization'] = "token #{Trellish.config[:github_oauth_token]}"
           req.body = {
             title: @card.name,
-            base: Trellish.config[:git_base_branch],
+            body: "[Trello card](#{@card.url})",
+            base: git_base_branch,
             head: "#{git_repository_owner}:#{current_git_branch}"
           }.to_json
         end
@@ -35,6 +36,10 @@ module Trellish
       @github_pull_request_url = JSON.parse(response.body)["html_url"]
     end
 
+    def git_base_branch
+      Trellish.config[:git_base_branch]
+    end
+
     def git_repository_name
       @git_repository_name ||= matches[2]
     end
@@ -43,8 +48,22 @@ module Trellish
       @git_repository_owner ||= matches[1]
     end
 
+    def git_create_local_branch(branch_name)
+      `git checkout -b #{branch_name} #{git_base_branch}`
+    end
+
+    def git_user_initials
+      return @user_initials if @user_initials
+      username = presence(`git config github.user`) || presence(`git config user.email`) || presence(`whoami`)
+      @user_initials = username[0..2]
+    end
+
     def matches
       @matches ||= matches = remote_url.match(%r|^git@github.com:([^/]*)\/([^\.]*)\.git$|)
+    end
+
+    def presence(s)
+      s.strip if s && !s.strip.empty?
     end
 
     def remote_url

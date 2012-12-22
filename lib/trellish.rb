@@ -12,7 +12,10 @@ module Trellish
     trello_oauth_secret: 'TRELLO_OAUTH_SECRET',
     trello_oauth_token: 'TRELLO_OAUTH_TOKEN',
     github_oauth_token: 'GITHUB_OAUTH_TOKEN',
-    git_base_branch: 'GIT_BASE_BRANCH',
+    git_base_branch: 'master',
+    board_name: 'Current',
+    next_up_list_name: 'Next up',
+    in_progress_list_name: 'In progress',
     qa_list_name: 'QA'
   }
 
