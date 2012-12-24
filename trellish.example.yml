@@ -18,5 +18,10 @@ github_oauth_token: numbers_and_letters_and_stuff
 # The branch you want your changes merged into
 git_base_branch: master
 
-# Name of your QA list in Trello
+# Name of your Trello board
+board_name: Current
+
+# Names of your Next up, In progress, and QA lists in Trello
+next_up_list_name: Next up
+in_progress_list_name: In progress
 qa_list_name: QA

@@ -50,6 +50,8 @@ module Trellish
 
     def git_create_local_branch(branch_name)
       `git checkout -b #{branch_name} #{git_base_branch}`
+    rescue
+      Trellish.logger.warn "Failed to create a local git branch named #{branch_name}."
     end
 
     def git_user_initials
@@ -59,7 +61,7 @@ module Trellish
     end
 
     def matches
-      @matches ||= matches = remote_url.match(%r|^git@github.com:([^/]*)\/([^\.]*)\.git$|)
+      @matches ||= remote_url.match(%r|^git@github.com:([^/]*)\/([^\.]*)\.git$|)
     end
 
     def presence(s)
