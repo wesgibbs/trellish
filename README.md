@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Setup
 
-Create a `./trellish.yml`, `~/trellish.yml` or `~/.trellish` file. Set it up like this:
+Create a `./trellish.yml`, `~/trellish.yml` or `~/.trellish` file with the contents of [trellish.example.yml](trellish/blob/master/trellish.example.yml). Set it up like this:
 
 1. Sign in to Trello and go to https://trello.com/1/appKey/generate.
 1. Copy "Key" from that page to trello\_api\_key.
