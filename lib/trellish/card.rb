@@ -1,9 +1,11 @@
+require 'trellish/campfire'
 require 'trellish/git'
 
 module Trellish
   class Card
     include Trello
     include Trellish::Git
+    include Trellish::Campfire
 
     def self.select_from_list(list_name, assigned_to_me = false)
       me = Trellish::Auth.authorize
@@ -61,6 +63,7 @@ module Trellish
       add_pull_request_link
       remove_all
       move_to_qa
+      announce %Q([Trellish] Finished card "#{@card.name}" #{@card.url})
     end
 
     def move_to_qa
@@ -87,6 +90,7 @@ module Trellish
       move_to_in_progress
       add_me_as_member
       create_local_branch
+      announce %Q([Trellish] Starting card "#{@card.name}" #{@card.url})
     end
 
     private

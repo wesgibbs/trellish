@@ -25,3 +25,8 @@ board_name: Current
 next_up_list_name: Next up
 in_progress_list_name: In progress
 qa_list_name: QA
+
+# Campfire subdomain, room & your token
+campfire_subdomain: subdomain
+campfire_token: 1111111111111111111111111111111111111111
+campfire_room: Development

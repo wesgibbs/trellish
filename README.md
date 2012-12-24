@@ -28,6 +28,13 @@ Create a `./trellish.yml`, `~/trellish.yml` or `~/.trellish` file. Set it up lik
 1. Run: `curl -u 'username' -d '{"scopes":["repo"],"note":"Trellish"}' https://api.github.com/authorizations`
 1. Copy the token parameter from the response to github\_oauth\_token.
 
+Optionally, Trellish can announce the starting and finishing of cards on 37signal's [Campfire](http://campfirenow.com/). To enable this:
+
+1. Sign in to Campfire and go to your "my info" page. You can find the link in the upper-right corner.
+1. Copy your subdomain name to campfire\_subdomain.
+1. Copy your API authentication token to campfire\_token.
+1. Specify the room name in campfire\_room.
+
 ## Usage
 
 By default, Trellish expects a Trello board named `Current` with 3 lists: `Next up`, `In progress`, and `QA`. You can change these defaults using the Trellish config file.

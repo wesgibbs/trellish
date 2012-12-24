@@ -16,7 +16,10 @@ module Trellish
     board_name: 'Current',
     next_up_list_name: 'Next up',
     in_progress_list_name: 'In progress',
-    qa_list_name: 'QA'
+    qa_list_name: 'QA',
+    campfire_subdomain: nil,
+    campfire_token: nil,
+    campfire_room: nil
   }
 
   @valid_config_keys = @config.keys
