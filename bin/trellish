@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 require 'readline'
 require 'trellish'
@@ -29,7 +30,7 @@ when 'start'
     else
       Trellish::Card.select_from_list(Trellish.config[:next_up_list_name], false)
     end
-  puts "Starting card #{card.name}"
+  puts %Q(Starting card “#{card.name}”)
   card.start
 
 when 'finish'
@@ -39,7 +40,7 @@ when 'finish'
     else
       Trellish::Card.select_from_list(Trellish.config[:in_progress_list_name], true)
     end
-  puts "Finishing card #{card.name}"
+  puts %Q(Finishing card “#{card.name}”)
   card.finish
 
 end

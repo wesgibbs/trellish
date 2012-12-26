@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'trellish/campfire'
 require 'trellish/git'
 
@@ -63,7 +65,7 @@ module Trellish
       add_pull_request_link
       remove_all
       move_to_qa
-      announce %Q([Trellish] Finished card "#{@card.name}" #{@card.url})
+      announce %Q([Trellish] Finished card “#{@card.name}” #{@card.url}. The pull request is at #{github_pull_request_url})
     end
 
     def move_to_qa
@@ -90,7 +92,7 @@ module Trellish
       move_to_in_progress
       add_me_as_member
       create_local_branch
-      announce %Q([Trellish] Starting card "#{@card.name}" #{@card.url})
+      announce %Q([Trellish] Starting card “#{@card.name}” #{@card.url})
     end
 
     private
