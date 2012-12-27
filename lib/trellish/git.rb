@@ -56,18 +56,6 @@ module Trellish
       @user_initials = username[0..2]
     end
 
-    def matches
-      @matches ||= remote_url.match(%r|^git@github.com:([^/]*)\/([^\.]*)\.git$|)
-    end
-
-    def presence(s)
-      s.strip if s && !s.strip.empty?
-    end
-
-    def remote_url
-      @remote_url ||= `git config remote.origin.url`
-    end
-
     private
 
     def current_git_branch
@@ -76,15 +64,6 @@ module Trellish
 
     def git_base_branch
       Trellish.config[:git_base_branch]
-    end
-
-    def git_remote_up_to_date?(local_branch_name)
-      remote_branch_name = git_remote_branch_for_local_branch(local_branch_name)
-
-      local_hash = git_hash_for_ref("heads/#{local_branch_name}")
-      remote_hash = git_hash_for_ref("remotes/#{remote_branch_name}")
-
-      local_hash == remote_hash
     end
 
     def git_dir
@@ -101,8 +80,29 @@ module Trellish
       `git show-ref --hash #{ref}`.strip
     end
 
+    def git_remote_up_to_date?(local_branch_name)
+      remote_branch_name = git_remote_branch_for_local_branch(local_branch_name)
+
+      local_hash = git_hash_for_ref("heads/#{local_branch_name}")
+      remote_hash = git_hash_for_ref("remotes/#{remote_branch_name}")
+
+      local_hash == remote_hash
+    end
+
     def git_remote_branch_for_local_branch(local_branch_name)
       `git for-each-ref --format='%(upstream:short)' refs/heads/#{local_branch_name}`.strip
+    end
+
+    def matches
+      @matches ||= remote_url.match(%r|^git@github.com:([^/]*)\/([^\.]*)\.git$|)
+    end
+
+    def presence(s)
+      s.strip if s && !s.strip.empty?
+    end
+
+    def remote_url
+      @remote_url ||= `git config remote.origin.url`
     end
 
   end
