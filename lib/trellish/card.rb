@@ -61,8 +61,13 @@ module Trellish
     end
 
     def add_pull_request_link
-      @card.description = "[Pull Request](#{github_pull_request_url})\n\n#{@card.description}"
-      @card.save
+      # Unfortunately, changing the card's description changes the card's URL, which breaks
+      # the link from the pull request, and our announcements to Campfire. Instead, add
+      # a comment to the pull request.
+      # @card.description = "[Pull Request](#{github_pull_request_url})\n\n#{@card.description}"
+      # @card.update!
+      message = "Pull request is at #{github_pull_request_url}"
+      @card.add_comment message
     end
 
     def create_local_branch
