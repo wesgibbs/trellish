@@ -3,10 +3,6 @@ require 'faraday'
 module Trellish
   module Git
 
-    def current_git_branch
-      @current_git_branch ||= `cat .git/head`.split('/').last.strip
-    end
-
     def github_pull_request_url
       return @github_pull_request_url if @github_pull_request_url
       conn = Faraday.new(:url => 'https://api.github.com', :ssl => {:ca_file => '/System/Library/OpenSSL/certs/ca-certificates.crt'}) do |faraday|
@@ -74,6 +70,10 @@ module Trellish
 
     private
 
+    def current_git_branch
+      @current_git_branch ||= `cat #{git_dir}/head`.split('/').last.strip
+    end
+
     def git_base_branch
       Trellish.config[:git_base_branch]
     end
@@ -87,6 +87,16 @@ module Trellish
       local_hash == remote_hash
     end
 
+    def git_dir
+      return @git_dir if @git_dir
+      path = `git rev-parse --git-dir`.strip
+      if path[/^fatal/]
+        Trellish.logger.error "Failed to find your git repository."
+        exit
+      end
+      @git_dir = path
+    end
+
     def git_hash_for_ref(ref)
       `git show-ref --hash #{ref}`.strip
     end
@@ -94,7 +104,6 @@ module Trellish
     def git_remote_branch_for_local_branch(local_branch_name)
       `git for-each-ref --format='%(upstream:short)' refs/heads/#{local_branch_name}`.strip
     end
-
 
   end
 end
