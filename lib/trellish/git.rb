@@ -36,10 +36,6 @@ module Trellish
       @github_pull_request_url = JSON.parse(response.body)["html_url"]
     end
 
-    def git_base_branch
-      Trellish.config[:git_base_branch]
-    end
-
     def git_repository_name
       @git_repository_name ||= matches[2]
     end
@@ -52,6 +48,10 @@ module Trellish
       `git checkout -b #{branch_name} #{git_base_branch}`
     rescue
       Trellish.logger.warn "Failed to create a local git branch named #{branch_name}."
+    end
+
+    def current_git_branch_is_up_to_date?
+      git_remote_up_to_date?(current_git_branch)
     end
 
     def git_user_initials
@@ -71,6 +71,30 @@ module Trellish
     def remote_url
       @remote_url ||= `git config remote.origin.url`
     end
+
+    private
+
+    def git_base_branch
+      Trellish.config[:git_base_branch]
+    end
+
+    def git_remote_up_to_date?(local_branch_name)
+      remote_branch_name = git_remote_branch_for_local_branch(local_branch_name)
+
+      local_hash = git_hash_for_ref("heads/#{local_branch_name}")
+      remote_hash = git_hash_for_ref("remotes/#{remote_branch_name}")
+
+      local_hash == remote_hash
+    end
+
+    def git_hash_for_ref(ref)
+      `git show-ref --hash #{ref}`.strip
+    end
+
+    def git_remote_branch_for_local_branch(local_branch_name)
+      `git for-each-ref --format='%(upstream:short)' refs/heads/#{local_branch_name}`.strip
+    end
+
 
   end
 end

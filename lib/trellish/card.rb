@@ -76,6 +76,11 @@ module Trellish
     end
 
     def finish
+      if !current_git_branch_is_up_to_date?
+        finish = Readline.readline("Your remote branch isn’t up-to-date. Finish anyway? [y,N] ")
+        exit unless ['y','yes'].include?(finish.strip.downcase)
+      end
+
       add_pull_request_link
       remove_all
       move_to_qa
