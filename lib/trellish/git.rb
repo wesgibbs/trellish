@@ -3,10 +3,6 @@ require 'faraday'
 module Trellish
   module Git
 
-    def current_git_branch
-      @current_git_branch ||= `cat .git/head`.split('/').last.strip
-    end
-
     def github_pull_request_url
       return @github_pull_request_url if @github_pull_request_url
       conn = Faraday.new(:url => 'https://api.github.com', :ssl => {:ca_file => '/System/Library/OpenSSL/certs/ca-certificates.crt'}) do |faraday|
@@ -20,7 +16,8 @@ module Trellish
           req.headers['Authorization'] = "token #{Trellish.config[:github_oauth_token]}"
           req.body = {
             title: @card.name,
-            base: Trellish.config[:git_base_branch],
+            body: "[Trello card](#{@card.url})",
+            base: git_base_branch,
             head: "#{git_repository_owner}:#{current_git_branch}"
           }.to_json
         end
@@ -43,8 +40,65 @@ module Trellish
       @git_repository_owner ||= matches[1]
     end
 
+    def git_create_local_branch(branch_name)
+      `git checkout -b #{branch_name} #{git_base_branch}`
+    rescue
+      Trellish.logger.warn "Failed to create a local git branch named #{branch_name}."
+    end
+
+    def current_git_branch_is_up_to_date?
+      git_remote_up_to_date?(current_git_branch)
+    end
+
+    def git_user_initials
+      return @user_initials if @user_initials
+      username = presence(`git config github.user`) || presence(`git config user.email`) || presence(`whoami`)
+      @user_initials = username[0..2]
+    end
+
+    private
+
+    def current_git_branch
+      @current_git_branch ||= `cat #{git_dir}/head`.split('/').last.strip
+    end
+
+    def git_base_branch
+      Trellish.config[:git_base_branch]
+    end
+
+    def git_dir
+      return @git_dir if @git_dir
+      path = `git rev-parse --git-dir`.strip
+      if path[/^fatal/]
+        Trellish.logger.error "Failed to find your git repository."
+        exit
+      end
+      @git_dir = path
+    end
+
+    def git_hash_for_ref(ref)
+      `git show-ref --hash #{ref}`.strip
+    end
+
+    def git_remote_up_to_date?(local_branch_name)
+      remote_branch_name = git_remote_branch_for_local_branch(local_branch_name)
+
+      local_hash = git_hash_for_ref("heads/#{local_branch_name}")
+      remote_hash = git_hash_for_ref("remotes/#{remote_branch_name}")
+
+      local_hash == remote_hash
+    end
+
+    def git_remote_branch_for_local_branch(local_branch_name)
+      `git for-each-ref --format='%(upstream:short)' refs/heads/#{local_branch_name}`.strip
+    end
+
     def matches
-      @matches ||= matches = remote_url.match(%r|^git@github.com:([^/]*)\/([^\.]*)\.git$|)
+      @matches ||= remote_url.match(%r|^git@github.com:([^/]*)\/([^\.]*)\.git$|)
+    end
+
+    def presence(s)
+      s.strip if s && !s.strip.empty?
     end
 
     def remote_url

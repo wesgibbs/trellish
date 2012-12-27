@@ -17,4 +17,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'oauth2', '>=0.7.0'
   gem.add_dependency 'ruby-trello-wgibbs', '>=0.4.4'
+  gem.add_dependency 'tinder', '>=1.9.1'
 end
