@@ -13,8 +13,17 @@ module Trellish
       me = Trellish::Auth.authorize
       boards = me.boards(filter: :open)
       current_board = boards.find { |board| board.name == Trellish.config[:board_name] }
+      if current_board.nil?
+        Trellish.logger.error "Unable to find a board named `#{Trellish.config[:board_name]}`."
+        exit
+      end
 
       list = current_board.lists.find { |list| list.name == list_name }
+      if list.nil?
+        Trellish.logger.error "Unable to find a list named `#{list_name}` on board `#{Trellish.config[:board_name]}`."
+        exit
+      end
+
       cards = list.cards
 
       if assigned_to_me
