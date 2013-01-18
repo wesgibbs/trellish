@@ -6,7 +6,7 @@ trello_api_key: numbers_and_letters_and_stuff
 trello_oauth_secret: numbers_and_letters_and_stuff
 
 # Visit
-#   http://trello.com/1/authorize?key=TRELLO_API_KEY_FROM_ABOVE&name=Trellish&response_type=token&scope=read,write&expiration=never
+#   https://trello.com/1/authorize?key=TRELLO_API_KEY_FROM_ABOVE&name=Trellish&response_type=token&scope=read,write&expiration=never
 # and copy the token to trello_oauth_token here.
 trello_oauth_token: numbers_and_letters_and_stuff
 
