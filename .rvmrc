@@ -1,1 +1,1 @@
-rvm use --create ruby-1.9.3-p194-falcon@trellish
+rvm use --create ruby-1.9.3-p392@trellish
